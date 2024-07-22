@@ -1,0 +1,214 @@
+//--->Function
+
+// function add(a,b){
+//     return a + b;
+// }
+
+// var add = function(a,b){
+//     return a+b;
+// }
+
+// var add = (a,b) => {return a+b}
+
+// var add = (a,b) => a+b;
+
+// var result = add(5,100);
+// console.log(result);
+
+// (function(){
+//     console.log('Sanjay');
+// }());
+
+
+//--->CallBack Function
+
+// function CallBack(){
+//     console.log("Thala for a reason");
+// }
+
+// const add = function(a,b,CallBack){
+//     var result = a+b;
+//     console.log("result:" +result);
+//     CallBack();
+// }
+
+//add(3,4,CallBack);
+
+// add(4,3, function(){
+//     console.log("Thala for a reason");
+// });
+
+// add(3,4, () => console.log("Thala for a reason"));
+
+
+
+
+
+
+
+
+// //NODE MODULES
+
+// const Notes = require('./note.js');
+// var _ = require('lodash');
+
+// var Age = Notes.Age;
+// console.log(Age);
+
+// var data = ['person', 'person',1, 2, 1, 2, 'name', 'age', '2'];
+// var filter = _.uniq(data);
+// console.log(filter);
+
+
+
+//<--------------------------------------------------------------------->//
+      //<---------------EXPRESS JS ------------------------->//
+
+      const express = require('express')
+      const app = express()
+      
+      app.get('/', function (req, res) {
+        res.send('Welcome to my hotel... How i can help you?')
+      })
+
+      app.get('/Pizza', function (req,res) {
+        res.send('sure sir, i would love to serve Pizza')
+      })
+
+      app.get('/idli', function (req,res) {
+        res.send('welcome to south india and would love to serve IDLI')
+      })
+
+      app.listen(3000, ()=>{
+        console.log('listening on port 3000')
+      })
+      
+
+
+
+
+      const express = require('express')
+const app = express();
+const db = require('./db');
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
+const Person = require('./models/Person');
+const MenuItem = require('./models/MenuItem');                                                                                                                                                         
+
+app.get('/', function (req,res) {
+  res.send('Welcome to my Hotel... How i can help you ?, we have list of menu')
+})
+
+//POST route to add a person
+// app.post('/person', async (req,res) =>{
+  // const data = req.body //Assuming the request body conatins the person data
+
+  // // Create a new Person documnet using the Mongoose model
+  // // const newPerson = new Person();
+  // // newPerson.name = data.name;
+  // // newPerson.age = data.age;
+  // // newPerson.mobile = data.mobile;
+  // // newPerson.email = data.email;
+  // // newPerson.address = data.address;
+
+  // const newPerson = new Person(data);
+
+  // //Save the new Person to the database
+  // newPerson.save((error,savedPerson) => {
+  //   if(error){
+  //     console.log('Error saving person: ',error);
+  //     res.status(500).json({error: 'Internet server error'})
+  //   }else{
+  //     console.log('data saved succesfully');
+  //     res.status(200).json(savedPerson);
+  //   }
+
+    //<---Asyn & Await-->>
+//     try{
+//       const data = req.body // Assuming the request body conatains the person data
+  
+//       //Create a new Person document using the Mongoose model
+//       const newPerson = new Person(data);
+  
+//       //Save the new person to the database
+//       const response = await newPerson.save();
+//       console.log('data saved');
+//       res.status(200).json(response);
+//     }
+//   catch(err){
+//     console.log(err);
+//   res.status(500).json({error: 'Internal Server Erro'});
+//   }
+// })
+  
+
+// // GET method to get the person
+// app.get('/person', async (req,res) => {
+//   try{
+//     const data = await Person.find();
+//     console.log('data fatched');
+//     res.status(200).json(data);
+//   }catch(err){
+//     console.log(err);
+//   res.status(500).json({error: 'Internal Server Erro'});
+//   }
+// })
+
+
+
+app.post('/MenuItem', async (req,res) =>{
+    //<---Asyn & Await-->>
+    try{
+      const data = req.body // Assuming the request body conatains the person data
+  
+      //Create a new Person document using the Mongoose model
+      const newItem = new MenuItem(data);
+  
+      //Save the new person to the database
+      const response = await newItem.save();
+      console.log('data saved');
+      res.status(200).json(response);
+    }
+  catch(err){
+    console.log(err);
+  res.status(500).json({error: 'Internal Server Erro'});
+  }
+})
+
+app.get('/MenuItem', async (req,res) => {
+  try{
+    const data = await MenuItem.find();
+    console.log('data fatched');
+    res.status(200).json(data);
+  }catch(err){
+    console.log(err);
+  res.status(500).json({error: 'Internal Server Erro'});
+  }
+})
+
+// app.get('/Person:/workType', async (req,res) =>{
+//   try{
+//     const workType = req.params.workType;
+//     if(workType == 'chef' || workType == 'manager' || workType == 'waiter'){
+
+//       const response =  await Person.find({work: workType});
+//       console.log('response fetched');
+//       res.status(200).json(response);
+//     }else{
+//       res.status(404).json({error: 'Invailid work type'});
+//     }
+//   }catch(err){
+//     console.log(err);
+//     res.status(500).json({error: 'Internal Server Erro'});
+//   }
+// })
+
+// Import the router file
+const personRoutes = require('./routes/personRoutes');
+app.use('/person', personRoutes);
+
+app.listen(3000, () => {
+  console.log('listening on port 3000');
+})
